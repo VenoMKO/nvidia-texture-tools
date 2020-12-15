@@ -582,6 +582,10 @@ namespace nvtt
         NVTT_API void flipX();
         NVTT_API void flipY();
         NVTT_API void flipZ();
+
+        // Works with square surfaces
+        NVTT_API void rotate(bool cw = true);
+        
         NVTT_API Surface createSubImage(int x0, int x1, int y0, int y1, int z0, int z1) const;
 
         NVTT_API Surface warp(int w, int h, WarpFunction * f) const;
@@ -611,7 +615,8 @@ namespace nvtt
         CubeLayout_HorizontalCross,
         CubeLayout_Column,
         CubeLayout_Row,
-        CubeLayout_LatitudeLongitude
+        CubeLayout_LatitudeLongitude,
+        CubeLayout_RowUE4
     };
 
     // (New in NVTT 2.1)
@@ -644,6 +649,7 @@ namespace nvtt
         NVTT_API const Surface & face(int face) const;
 
         // Layout conversion. @@ Not implemented.
+        // @@ Implemented CubeLayout_Row layout with UE4 modifications
         NVTT_API void fold(const Surface & img, CubeLayout layout);
         NVTT_API Surface unfold(CubeLayout layout) const;
 

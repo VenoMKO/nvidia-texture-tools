@@ -403,6 +403,7 @@ void CubeSurface::fold(const Surface & tex, CubeLayout layout)
             offsets = foldOffsetColumn;
             break;
         case CubeLayout_Row:
+        case CubeLayout_RowUE4:
             edgeLength = tex.height();
             offsets = foldOffsetRow;
             break;
@@ -420,12 +421,18 @@ void CubeSurface::fold(const Surface & tex, CubeLayout layout)
         m->face[5].flipX();
         m->face[5].flipY();
     }
+
+    if (layout == CubeLayout_RowUE4) {
+      m->face[0].rotate(true);
+      m->face[1].rotate(false);
+      m->face[2].flipY();
+    }
 }
 
 Surface CubeSurface::unfold(CubeLayout layout) const
 {
     ivec2 const* offsets = 0;
-    uint edgeLength = m->edgeLength;
+    uint edgeLength = m->face[0].width();
     uint width;
     uint height;
 
@@ -453,6 +460,14 @@ Surface CubeSurface::unfold(CubeLayout layout) const
             offsets = foldOffsetRow;
             width = 6 * edgeLength;
             height = edgeLength;
+            break;
+        case CubeLayout_RowUE4:
+            offsets = foldOffsetRow;
+            width = 6 * edgeLength;
+            height = edgeLength;
+            m->face[0].rotate(false);
+            m->face[1].rotate(true);
+            m->face[2].flipY();
             break;
     }
 

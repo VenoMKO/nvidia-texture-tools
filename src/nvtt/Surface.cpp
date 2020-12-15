@@ -3018,6 +3018,15 @@ void Surface::flipZ()
     m->image->flipZ();
 }
 
+void Surface::rotate(bool cw)
+{
+  if (isNull() || width() != height()) return;
+
+  detach();
+
+  m->image->rotate(cw);
+}
+
 Surface Surface::createSubImage(int x0, int x1, int y0, int y1, int z0, int z1) const
 {
     Surface s;

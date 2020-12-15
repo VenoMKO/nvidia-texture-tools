@@ -1374,7 +1374,45 @@ void FloatImage::flipZ()
     }
 }
 
-
+void FloatImage::rotate(bool cw)
+{
+  const uint w = m_width;
+  const uint h = m_height;
+  const uint d = m_depth;
+  for (uint c = 0; c < m_componentCount; ++c) {
+    for (uint z = 0; z < d; ++z) {
+      float* tmp = malloc<float>(w * h * sizeof(float));
+      if (cw)
+      {
+        for (uint x = 0; x < w; ++x) {
+          for (uint y = 0; y < h; ++y) {
+            tmp[x * m_width + y] = m_mem[c * m_pixelCount + index(m_height - y - 1, x, z)];
+          }
+        }
+        for (uint x = 0; x < w; ++x) {
+          for (uint y = 0; y < h; ++y) {
+            m_mem[c * m_pixelCount + index(x, y, z)] = tmp[x * m_width + y];
+          }
+        }
+      }
+      else
+      {
+        float* tmp = malloc<float>(w * h * sizeof(float));
+        for (uint x = 0; x < w; ++x) {
+          for (uint y = 0; y < h; ++y) {
+            tmp[x * m_width + y] = m_mem[c * m_pixelCount + index(y, m_width - x - 1, z)];
+          }
+        }
+        for (uint x = 0; x < w; ++x) {
+          for (uint y = 0; y < h; ++y) {
+            m_mem[c * m_pixelCount + index(x, y, z)] = tmp[x * m_width + y];
+          }
+        }
+      }
+      ::free(tmp);
+    }
+  }
+}
 
 float FloatImage::alphaTestCoverage(float alphaRef, int alphaChannel, float alphaScale/*=1*/) const
 {

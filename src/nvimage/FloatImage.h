@@ -103,6 +103,7 @@ namespace nv
         void flipX();
         void flipY();
         void flipZ();
+        void rotate(bool cw = true);
 
         float alphaTestCoverage(float alphaRef, int alphaChannel, float alphaScale = 1.0f) const;
         void scaleAlphaToCoverage(float coverage, float alphaRef, int alphaChannel);
